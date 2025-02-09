@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #121212;
+            color: #ffffff;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: left;
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .dropdown {
+            background-color: #1E1E1E;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .dropdown-options {
+            display: none;
+            position: absolute;
+            background-color: #333;
+            width: 100%;
+            top: 40px;
+            left: 0;
+            border-radius: 5px;
+        }
+
+        .dropdown-options div {
+            padding: 10px;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .dropdown-options div:hover {
+            background-color: #555;
+        }
+
+        .reserved-spot {
+            background-color: #4ba3fa;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .qr-code {
+            width: 80px;
+            height: 80px;
+            background-color: #ffffff;
+            padding: 5px;
+            border-radius: 5px;
+        }
+
+        .book-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .button {
+            background-color: #005f73;
+            padding: 15px;
+            border-radius: 5px;
+            color: white;
+            cursor: pointer;
+            flex: 1;
+            text-align: center;
+            margin: 0 5px;
+        }
+
+        .button.active {
+            background-color: #4ba3fa;
+        }
+
+        .slots {
+            display: grid;
+            grid-template-columns: repeat(8, 1fr);
+            gap: 10px;
+        }
+
+        .slot {
+            white-space: nowrap;
+            background-color: #333;
+            padding: 15px;
+            text-align: center;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+
+        .footer {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            background-color: #1E1E1E;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <span>NAVNEET KUMAR SAXENA</span>
+    </div>
+    
+    <div class="dropdown" onclick="toggleDropdown()">Ground 1 ▼
+        <div class="dropdown-options" id="dropdownOptions">
+            <div onclick="changeGround(1)">Ground 1</div>
+            <div onclick="changeGround(2)">Ground 2</div>
+            <div onclick="changeGround(3)">Ground 3</div>
+        </div>
+    </div>
+    
+    <div class="reserved-spot">
+        <div>
+            <strong>Ground 1 Parking</strong>
+            <p>Parking Spot: B-054</p>
+            <p>Timing: 8am-8pm</p>
+            <p><strong>DL 05AQ 3544</strong></p>
+        </div>
+        <div class="qr-code" id="qrCode"></div>
+    </div>
+    
+    <h3>Book Parking Slot</h3>
+    <div class="book-buttons">
+        <div class="button" onclick="selectDay(this, 'today')">Today</div>
+        <div class="button" onclick="selectDay(this, 'tomorrow')">Tomorrow</div>
+    </div>
+    
+    <h3>Today's Available Slots</h3>
+    <div class="slots" id="slotsContainer"></div>
+    
+    <div class="footer">
+        <div class="button" onclick="goToHome()">Home</div>
+        <div class="button" onclick="goToProfile()">Profile</div>
+    </div>
+    
+    <script>
+        function generateQRCode() {
+            let qrCodeDiv = document.getElementById("qrCode");
+            qrCodeDiv.innerHTML = "<img src='https://api.qrserver.com/v1/create-qr-code/?size=80x80&data=" + Math.random() + "' alt='QR Code'>";
+        }
+
+        function loadSlots() {
+            let slotsContainer = document.getElementById("slotsContainer");
+            slotsContainer.innerHTML = "";
+            for (let row = 0; row < 5; row++) {
+                for (let i = 1; i <= 8; i++) {
+                    let slot = document.createElement("div");
+                    slot.className = "slot";
+                    slot.innerText = `B-${row * 8 + i}`;
+                    slot.onclick = () => bookSlot(slot.innerText);
+                    slotsContainer.appendChild(slot);
+                }
+            }
+        }
+
+        function toggleDropdown() {
+            let dropdown = document.getElementById("dropdownOptions");
+            dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
+        }
+
+        function changeGround(ground) {
+            document.querySelector(".dropdown").innerText = "Ground " + ground + " ▼";
+            document.getElementById("dropdownOptions").style.display = "none";
+        }
+
+        function selectDay(button, day) {
+            document.querySelectorAll(".book-buttons .button").forEach(btn => btn.classList.remove("active"));
+            button.classList.add("active");
+            loadSlots();
+        }
+
+        function bookSlot(slot) {
+            let selectedDay = document.querySelector(".book-buttons .button.active");
+            if (!selectedDay) {
+                alert("Please select Today or Tomorrow before booking a slot.");
+                return;
+            }
+            alert(`Slot ${slot} booked successfully!`);
+            window.location.href = 'page7.html';
+        }
+
+        function goToHome() {
+            window.location.href = "home.html";
+        }
+
+        function goToProfile() {
+            window.location.href = "profile.html";
+        }
+
+        generateQRCode();
+        loadSlots();
+    </script>
+</body>
+</html>

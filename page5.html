@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parking App - Page 5</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #121212;
+            color: #ffffff;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        .header {
+            text-align: left;
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .dropdown {
+            background-color: #1E1E1E;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .dropdown-options {
+            display: none;
+            background-color: #1E1E1E;
+            margin-top: 5px;
+            padding: 5px;
+            border-radius: 5px;
+        }
+
+        .dropdown-options div {
+            padding: 10px;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .dropdown-options div:hover {
+            background-color: #333;
+        }
+
+        .slots {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .slot {
+            background-color: #333;
+            padding: 15px;
+            text-align: center;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .slot:hover {
+            background-color: #4285F4;
+        }
+
+        .book-buttons {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            margin: 20px 0 40px 0;
+        }
+
+        .button {
+            background-color: #005f73;
+            padding: 15px;
+            border-radius: 5px;
+            color: white;
+            cursor: pointer;
+            text-align: center;
+            flex: 1;
+        }
+
+        .footer {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 10px 0;
+            background-color: #1E1E1E;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+
+        .footer div {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            flex: 1;
+            font-size: 12px;
+        }
+
+        .footer img {
+            width: 24px;
+            height: 24px;
+            margin-bottom: 5px;
+        }
+
+        .view-all {
+            text-align: right;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <span>NAVNEET KUMAR SAXENA</span>
+    </div>
+    
+    <div class="dropdown" onclick="toggleDropdown()">Ground 1 ▼
+        <div class="dropdown-options" id="dropdownOptions">
+            <div onclick="changeGround(1)">Ground 1</div>
+            <div onclick="changeGround(2)">Ground 2</div>
+            <div onclick="changeGround(3)">Ground 3</div>
+        </div>
+    </div>
+    
+    <h3>Today's Available Slots <span class="view-all"><a href="page6.html">View all</a></span></h3>
+    
+    <div class="slots" id="slotsContainer"></div>
+    
+    <h3>Book Parking Slot</h3>
+    <div class="book-buttons">
+        <div class="button" onclick="bookSlot('today')">Today</div>
+        <div class="button" onclick="bookSlot('tomorrow')">Tomorrow</div>
+    </div>
+    
+    <div class="footer">
+        <div onclick="goToHome()">
+            <img src="Page1\imagepage1\home.png" alt="Home">
+            <span>Home</span>
+        </div>
+        <div onclick="goToProfile()">
+            <img src="Page1\imagepage1\profile.png" alt="Profile">
+            <span>Profile</span>
+        </div>
+    </div>
+    
+    <script>
+        function toggleDropdown() {
+            let dropdown = document.getElementById("dropdownOptions");
+            dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
+        }
+
+        function changeGround(ground) {
+            document.querySelector(".dropdown").innerText = "Ground " + ground + " ▼";
+            document.getElementById("dropdownOptions").style.display = "none";
+            loadSlots(ground);
+        }
+
+        function loadSlots(ground) {
+            let container = document.getElementById("slotsContainer");
+            container.innerHTML = "";
+            for (let i = 1; i <= 40; i++) {
+                let slot = document.createElement("div");
+                slot.className = "slot";
+                slot.innerText = `B-${i}`;
+                slot.onclick = () => bookSlot(i);
+                container.appendChild(slot);
+            }
+        }
+
+        function bookSlot(slotNumber) {
+            alert(`Slot B-${slotNumber} booked`);
+            window.location.href = 'page6.html';
+        }
+
+        function goToHome() {
+            window.location.href = "home.html";
+        }
+
+        function goToProfile() {
+            window.location.href = "profile.html";
+        }
+
+        loadSlots(1);
+    </script>
+</body>
+</html>
